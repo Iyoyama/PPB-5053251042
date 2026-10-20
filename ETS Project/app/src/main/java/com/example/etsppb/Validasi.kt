@@ -2,7 +2,7 @@ package com.example.etsppb
 
 import android.util.Patterns
 
-//mengembalikan jika daftar error. kalau kosong = (data valid)
+//mengembalikan daftar error. Kalau kosong = (data valid)
 fun validasi(m: Member, db: DbHelper): Map<String, String> {
     val e = mutableMapOf<String, String>()
 
@@ -18,11 +18,11 @@ fun validasi(m: Member, db: DbHelper): Map<String, String> {
         e["email"] = "Format email tidak valid"
 
     // 3) Nomor induk: wajib
-    if (m.nomorInduk.isBlank()) e["induk"] = "NIM/NIP wajib diisi"
+    if (m.nomorInduk.isBlank()) e["induk"] = "NRP wajib diisi"
     else if (!m.nomorInduk.all { it.isDigit() } || m.nomorInduk.length !in 8..18)
-        e["induk"] = "NIM/NIP harus berupa angka 8-18 digit"
+        e["induk"] = "NRP harus berupa angka 8-18 digit"
     else if (db.nomorIndukSudahAda(m.nomorInduk, m.id))
-        e["induk"] = "NIM/NIP sudah terdaftar"
+        e["induk"] = "NRP sudah terdaftar"
 
     return e
 }

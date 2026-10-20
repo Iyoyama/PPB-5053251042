@@ -1,4 +1,5 @@
 package com.example.etsppb
+
 data class Member(
     val id: Int = 0,
     val nama: String,

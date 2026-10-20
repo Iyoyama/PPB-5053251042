@@ -5,7 +5,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
-//Class untuk SQLite (buat tabel + pencarian + Create, Read, update, delete)
+//class SQLite (make table + Create-Read-Update-Delete + pencarian)
 class DbHelper(context: Context) : SQLiteOpenHelper(context, "libraryreg.db", null, 1) {
 
     override fun onCreate(db: SQLiteDatabase) {
@@ -27,7 +27,7 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "libraryreg.db", nu
         onCreate(db)
     }
 
-    //mengubah Member menjadi pasangan kolom-nilai untuk disimpan
+    //ubah member jadi pasangan kolom-nilai untuk disimpan
     private fun toValues(m: Member) = ContentValues().apply {
         put("nama", m.nama)
         put("nomor_induk", m.nomorInduk)
@@ -71,7 +71,7 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "libraryreg.db", nu
         return hasil
     }
 
-    // Cek jika nomor induk sudah dipakai anggota lain (unique validation)
+    // Cek jika nomor induk sudah dipakai anggota lain (untuk validasi unik)
     fun nomorIndukSudahAda(nomor: String, kecualiId: Int = 0): Boolean {
         val c = readableDatabase.rawQuery(
             "SELECT 1 FROM member WHERE nomor_induk=? AND id<>?",
