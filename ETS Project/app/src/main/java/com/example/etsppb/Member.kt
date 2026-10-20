@@ -1,5 +1,6 @@
 package com.example.etsppb
 
+//model data satu anggota
 data class Member(
     val id: Int = 0,
     val nama: String,

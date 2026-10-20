@@ -15,7 +15,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
-//show up seluruh data tiap anggota
 @Composable
 fun DetailScreen(m: Member, onBack: () -> Unit, onEdit: () -> Unit) {
     Column(Modifier.fillMaxSize()) {
@@ -28,7 +27,7 @@ fun DetailScreen(m: Member, onBack: () -> Unit, onEdit: () -> Unit) {
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            //id card
+            //kartu profil
             Card(
                 shape = RoundedCornerShape(16.dp),
                 colors = CardDefaults.cardColors(containerColor = Color.White),
@@ -46,14 +45,14 @@ fun DetailScreen(m: Member, onBack: () -> Unit, onEdit: () -> Unit) {
                 }
             }
 
-            //detail id card
+            //kartu informasi lengkap
             Card(
                 shape = RoundedCornerShape(16.dp),
                 colors = CardDefaults.cardColors(containerColor = Color.White),
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                    Baris(Icons.Default.AccountBox, "NRP", m.nomorInduk)
+                    Baris(Icons.Default.AccountBox, "NIM / NIP", m.nomorInduk)
                     Baris(Icons.Default.Info, "Program Studi / Unit", m.prodi)
                     Baris(Icons.Default.LocationOn, "Alamat", m.alamat)
                     Baris(Icons.Default.Phone, "Nomor Telepon", m.telepon)
@@ -81,7 +80,7 @@ fun DetailScreen(m: Member, onBack: () -> Unit, onEdit: () -> Unit) {
     }
 }
 
-//barisinformasi: ikon + label kecil + isi
+//satu baris informasi dengan ikon dan label
 @Composable
 private fun Baris(ikon: ImageVector, label: String, isi: String) {
     Row(verticalAlignment = Alignment.Top) {

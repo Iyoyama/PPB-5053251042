@@ -17,13 +17,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 
-//TAMBAH (member = null) dan EDIT (member berisi data lama)
+//member null = tambah, member berisi = edit
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FormScreen(db: DbHelper, member: Member?, onBack: () -> Unit) {
     val context = LocalContext.current
     val modeTambah = member == null
 
+    //state tiap kolom isian
     var nama by remember { mutableStateOf(member?.nama ?: "") }
     var induk by remember { mutableStateOf(member?.nomorInduk ?: "") }
     var prodi by remember { mutableStateOf(member?.prodi ?: "") }
@@ -31,6 +32,8 @@ fun FormScreen(db: DbHelper, member: Member?, onBack: () -> Unit) {
     var telepon by remember { mutableStateOf(member?.telepon ?: "") }
     var email by remember { mutableStateOf(member?.email ?: "") }
     var jenis by remember { mutableStateOf(member?.jenis ?: "Mahasiswa") }
+
+    //state pesan error validasi
     var errors by remember { mutableStateOf(mapOf<String, String>()) }
 
     Column(Modifier.fillMaxSize()) {
@@ -49,7 +52,7 @@ fun FormScreen(db: DbHelper, member: Member?, onBack: () -> Unit) {
         ) {
             Bagian("Data Diri")
             Field("Nama Lengkap", nama, { nama = it }, errors["nama"], Icons.Default.Person)
-            Field("NRP", induk, { induk = it }, errors["induk"], Icons.Default.AccountBox, KeyboardType.Number)
+            Field("NIM / NIP", induk, { induk = it }, errors["induk"], Icons.Default.AccountBox, KeyboardType.Number)
             Field("Program Studi / Unit", prodi, { prodi = it }, errors["prodi"], Icons.Default.Info)
 
             Bagian("Kontak")
@@ -57,6 +60,7 @@ fun FormScreen(db: DbHelper, member: Member?, onBack: () -> Unit) {
             Field("Nomor Telepon", telepon, { telepon = it }, errors["telepon"], Icons.Default.Phone, KeyboardType.Phone)
             Field("Email", email, { email = it }, errors["email"], Icons.Default.Email, KeyboardType.Email)
 
+            //pilihan jenis keanggotaan
             Bagian("Jenis Keanggotaan")
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 listOf("Mahasiswa", "Dosen", "Staf").forEach { pilihan ->
@@ -79,8 +83,9 @@ fun FormScreen(db: DbHelper, member: Member?, onBack: () -> Unit) {
                         prodi = prodi.trim(), alamat = alamat.trim(), telepon = telepon.trim(),
                         email = email.trim(), jenis = jenis
                     )
-                    errors = validasi(data, db)           // 1) validasi
-                    if (errors.isEmpty()) {               // 2) kalau lolos, simpan
+                    //validasi dulu, kalau lolos baru simpan
+                    errors = validasi(data, db)
+                    if (errors.isEmpty()) {
                         if (modeTambah) db.insert(data) else db.update(data)
                         Toast.makeText(
                             context,
@@ -106,7 +111,7 @@ fun FormScreen(db: DbHelper, member: Member?, onBack: () -> Unit) {
     }
 }
 
-// Judul kecil pemisah kelompok isian
+//judul kecil pemisah kelompok isian
 @Composable
 private fun Bagian(judul: String) {
     Text(
@@ -118,7 +123,7 @@ private fun Bagian(judul: String) {
     )
 }
 
-//kolom input: ikon + label + pesan error
+//kolom isian dengan ikon dan pesan error
 @Composable
 fun Field(
     label: String, value: String, onChange: (String) -> Unit,

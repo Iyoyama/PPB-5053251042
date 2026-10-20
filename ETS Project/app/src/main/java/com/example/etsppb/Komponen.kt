@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-//TEMA
+//warna tema aplikasi
 private val SkemaWarna = lightColorScheme(
     primary = Color(0xFF1E5AA8),
     onPrimary = Color.White,
@@ -33,7 +33,7 @@ fun LibraryTheme(content: @Composable () -> Unit) {
     MaterialTheme(colorScheme = SkemaWarna, content = content)
 }
 
-//HEADER
+//header di bagian atas setiap halaman
 @Composable
 fun Header(
     judul: String,
@@ -77,13 +77,13 @@ fun Header(
     }
 }
 
-//AVATAR by Huruf depan Nama
+//lingkaran berisi huruf depan nama
 @Composable
 fun Avatar(nama: String, ukuran: Dp = 44.dp) {
     Box(
         Modifier
             .size(ukuran)
-            .clip(CircleShape) //lingkaran avatarnya
+            .clip(CircleShape)
             .background(MaterialTheme.colorScheme.primary),
         contentAlignment = Alignment.Center
     ) {
@@ -96,13 +96,13 @@ fun Avatar(nama: String, ukuran: Dp = 44.dp) {
     }
 }
 
-//LABEL WARNA KEANGGOTAAN
+//label jenis keanggotaan beda warna
 @Composable
 fun JenisBadge(jenis: String) {
     val (latar, teks) = when (jenis) {
         "Dosen" -> Color(0xFFEDE7F6) to Color(0xFF5E35B1)
         "Staf" -> Color(0xFFFFF3E0) to Color(0xFFE65100)
-        else -> Color(0xFFE3F2FD) to Color(0xFF1565C0)   // Mahasiswa
+        else -> Color(0xFFE3F2FD) to Color(0xFF1565C0)
     }
     Text(
         jenis,

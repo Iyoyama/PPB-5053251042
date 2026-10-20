@@ -5,9 +5,10 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
-//class SQLite (make table + Create-Read-Update-Delete + pencarian)
+//kelas pengelola database SQLite
 class DbHelper(context: Context) : SQLiteOpenHelper(context, "libraryreg.db", null, 1) {
 
+    //buat tabel member
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(
             """CREATE TABLE member (
@@ -27,7 +28,7 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "libraryreg.db", nu
         onCreate(db)
     }
 
-    //ubah member jadi pasangan kolom-nilai untuk disimpan
+    //ubah Member jadi pasangan kolom dan nilai
     private fun toValues(m: Member) = ContentValues().apply {
         put("nama", m.nama)
         put("nomor_induk", m.nomorInduk)
@@ -38,19 +39,19 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "libraryreg.db", nu
         put("jenis", m.jenis)
     }
 
-    // CREATE
+    //tambah data
     fun insert(m: Member): Boolean =
         writableDatabase.insert("member", null, toValues(m)) != -1L
 
-    // UPDATE
+    //ubah data
     fun update(m: Member): Boolean =
         writableDatabase.update("member", toValues(m), "id=?", arrayOf(m.id.toString())) > 0
 
-    // DELETE
+    //hapus data
     fun delete(id: Int): Boolean =
         writableDatabase.delete("member", "id=?", arrayOf(id.toString())) > 0
 
-    // READ semua data, atau SEARCH berdasarkan nama / nomor induk
+    //tampil semua data atau cari berdasarkan nama/nomor induk
     fun getAll(keyword: String = ""): List<Member> {
         val hasil = mutableListOf<Member>()
         val cursor = readableDatabase.rawQuery(
@@ -71,7 +72,7 @@ class DbHelper(context: Context) : SQLiteOpenHelper(context, "libraryreg.db", nu
         return hasil
     }
 
-    // Cek jika nomor induk sudah dipakai anggota lain (untuk validasi unik)
+    //cek nomor induk sudah dipakai anggota lain atau belum
     fun nomorIndukSudahAda(nomor: String, kecualiId: Int = 0): Boolean {
         val c = readableDatabase.rawQuery(
             "SELECT 1 FROM member WHERE nomor_induk=? AND id<>?",
